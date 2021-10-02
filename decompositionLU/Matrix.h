@@ -10,29 +10,25 @@
 class Matrix
 {
 private:
-    double** matrix = nullptr;
+    std::vector<std::vector<double>> matrix;
     size_t row = 0;
     size_t col = 0;
     //double det;
 
 public:
     //Constructors============================================
-    Matrix();
+    Matrix(){};
     Matrix(int row, int col);
-    Matrix(int row, int coll, double** matrix);
-    Matrix(int row, std::vector<double> vector);
+    Matrix(std::vector<std::vector<double>> vector):matrix(vector), row(vector.size()), col(vector[0].size()){}
+    Matrix(bool rowOrCol, std::vector<double> vector);
     Matrix(const std::initializer_list<std::initializer_list<double>> listList);
-    Matrix(const Matrix &m);
-    
-    ~Matrix();
+    Matrix(const Matrix &m): row(m.row),col(m.col),matrix(m.matrix){}
 
     
     size_t GetRow(){return this->row;}
     size_t GetCol(){return this->col;}
 
     //Operations ===========================================
-    double *const operator[] (int i);
-
     Matrix& operator= (const Matrix &m);
     
     Matrix operator+ (const Matrix &m);

@@ -1,22 +1,16 @@
 ﻿#include "Matrix.h"
 
-//Constructors============================================
-Matrix::Matrix(){}
+#include <list>
 
+//Constructors============================================
 Matrix::Matrix(int row, int col) : row(row), col(col)
 {
-    matrix = new double*[row];
-    for (int i = 0; i < row; ++i)
-        matrix[i] = new double [col];
-
-    for(int i = 0; i < row; ++i)
-        for(int j = 0; j < col; ++j)
-            matrix[i][j] = 0;
+    matrix = std::vector<std::vector<double>>(row,std::vector<double>(col));
 }
 
-Matrix::Matrix(int row, int col, double** matrix): row(row),col(col), matrix(matrix){}
 
-Matrix::Matrix(int row, std::vector<double> vector)
+
+Matrix::Matrix(bool rowOrCol, std::vector<double> vector)
 {
 }
 
@@ -24,70 +18,24 @@ Matrix::Matrix(const std::initializer_list<std::initializer_list<double>> listLi
 {
     this->row = listList.size();
     this->col = listList.begin()->size();
+    matrix.reserve(row);
+    for (std::vector<double> vector : matrix)
+        vector.reserve(col);
     
-    matrix = new double* [this->row];
-    for (int i = 0; i < this->row; ++i)
-        matrix[i] = new double [this->col];
-    
-    int i = 0;
-    for (std::initializer_list<double> list : listList)
+    for(std::initializer_list<double> list : listList)
     {
-        int j = 0;
-        for(double num : list)
-        {
-            this->matrix[i][j] = num;
-            ++j;
-        }
-        ++i;
-    }   
-    
+        matrix.push_back(list);
+    }
 }
 
-Matrix::Matrix(const Matrix &m): row(m.row),col(m.col)
-{    
-    matrix = new double* [row];
-    for (int i = 0; i < row; ++i)
-        matrix[i] = new double [col];
-    
-    for(int i = 0; i < this->row; ++i)
-        for(int j = 0; j < this->col; ++j)
-            this->matrix[i][j] = m.matrix[i][j];
-}
-
-Matrix::~Matrix()
-{
-    if(matrix)
-    for(int i = 0; i < row; ++i)
-        delete[] matrix[i];
-    delete[] matrix;
-}
 
 
 //Operations ===========================================
-double *const Matrix::operator[](int i)
-{
-    assert(i >= 0 && i < this->row);
-    return matrix[i];
-}
-
 Matrix& Matrix::operator=(const Matrix &m)
 {
-    if(matrix)
-    for(int i = 0; i < this->row; ++i)
-        delete[] matrix[i];
-    delete[] matrix;
-    
+    this->matrix = m.matrix;
     this->row = m.row;
     this->col = m.col;
-    
-    matrix = new double* [row];
-    for (int i = 0; i < row; ++i)
-        matrix[i] = new double [col];
-
-    for (int i = 0; i < row; ++i)
-        for(int j = 0; j < col; ++j)
-            matrix[i][j] = m.matrix[i][j];
-    
     return *this;
 }
 
