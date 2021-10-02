@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/.idea.decompositionLU.iml
+# Datasource local storage ignored files
+/../../../../../../:\CodeProjects\decompositionLU\.idea\.idea.decompositionLU\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
