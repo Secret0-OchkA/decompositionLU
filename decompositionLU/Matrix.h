@@ -29,6 +29,7 @@ public:
     size_t GetCol(){return this->col;}
 
     //Operations ===========================================
+    std::vector<double>& operator[](int index) { return matrix[index]; }
     Matrix& operator= (const Matrix &m);
     
     Matrix operator+ (const Matrix &m);
