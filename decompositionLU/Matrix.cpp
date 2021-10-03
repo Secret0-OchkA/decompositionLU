@@ -8,10 +8,24 @@ Matrix::Matrix(int row, int col) : row(row), col(col)
     matrix = std::vector<std::vector<double>>(row,std::vector<double>(col));
 }
 
-
-
 Matrix::Matrix(bool rowOrCol, std::vector<double> vector)
 {
+    if(rowOrCol)
+    {
+        matrix = Matrix(1,vector.size()).matrix;
+        row = 1;
+        col = vector.size();
+    }
+    else
+    {
+        matrix = Matrix(vector.size(),1).matrix;
+        row = vector.size();
+        col = 1;
+    }
+
+    for (int i = 0; i < row; ++i)
+        for(int j = 0; j < col; ++j)
+            this->matrix[i][j] = vector[rowOrCol? j:i];
 }
 
 Matrix::Matrix(const std::initializer_list<std::initializer_list<double>> listList)

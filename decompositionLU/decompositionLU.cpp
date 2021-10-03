@@ -3,7 +3,9 @@
 
 #include "Matrix.h"
 
-void foo(Matrix A, Matrix b);
+Matrix calculateSLAY_L(Matrix low,Matrix b);
+Matrix calculateSLAY_U(Matrix up, Matrix y);
+
 
 int main()
 {
@@ -22,32 +24,58 @@ int main()
         {3},
         };
 
-    foo(a,b);
-    
+    Matrix low,up;
+    a.get_lu_matrix(low,up);
+    std::cout << "low:\n" << low << std::endl;
+    std::cout << "up:\n"  << up  << std::endl;
 
+    Matrix y = calculateSLAY_L(low,b);
+    std::cout << "y:\n" << y << std::endl;
+
+    Matrix x = calculateSLAY_U(up,y);
+    std::cout << "x:\n" << x << std::endl;
+
+    
     return 0;
 }
 
-void foo(Matrix a, Matrix b)
+//function for tasks
+Matrix calculateSLAY_L(Matrix low, Matrix b)
 {
-    Matrix low;
-    Matrix up;
-    a.get_lu_matrix(low,up);
-
     std::vector<double> row;
-    //row.push_back(b[0][0]);
-    
-    for(int i = 0; i < a.GetCol(); ++i)
+
+    for(int i = 0; i < low.GetCol(); ++i)
     {
         double sum = 0;
         for(int j = 0; j < i; ++j)
         {
             double l = low[i][j];
-            double bi = row[i - 1];
+            double bi = row[j];
             sum += l * bi;
         }
         sum = b[i][0] - sum;
         row.push_back(sum);
     }
+    return Matrix(false,row);
 }
 
+Matrix calculateSLAY_U(Matrix up, Matrix y)
+{
+    std::vector<double> row;
+    for(int i = 0; i < y.GetRow(); ++i)
+        row.push_back(y[i][0]);
+    
+    for(int i = up.GetCol() - 1; i >= 0; --i)
+    {
+        double sum = 0;
+        for(int j = up.GetCol() - 1; j > i; --j)
+        {
+            double u = up[i][j];
+            double yi = row[j];
+            sum += u * yi;
+        }
+        sum = (y[i][0] - sum) / up[i][i];
+        row[i] = sum;
+    }
+    return Matrix(false,row);
+}

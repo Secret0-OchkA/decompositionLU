@@ -17,11 +17,12 @@ private:
 
 public:
     //Constructors============================================
-    Matrix(){};
     Matrix(int row, int col);
-    Matrix(std::vector<std::vector<double>> vector):matrix(vector), row(vector.size()), col(vector[0].size()){}
     Matrix(bool rowOrCol, std::vector<double> vector);
     Matrix(const std::initializer_list<std::initializer_list<double>> listList);
+    
+    Matrix(){};
+    Matrix(std::vector<std::vector<double>> vector):matrix(vector), row(vector.size()), col(vector[0].size()){}
     Matrix(const Matrix &m): row(m.row),col(m.col),matrix(m.matrix){}
 
     
